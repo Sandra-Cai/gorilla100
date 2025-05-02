@@ -3,7 +3,11 @@
 // @input Component.ScreenImage GorillaBloodBar
 // @input Component.ScreenImage HundredMenBloodBar
 
-// Helper to show the correct blood bar
+/**
+ * Shows the selected blood bar and hides the other.
+ * @param {Component.ScreenImage} selectedBar - The blood bar to show.
+ * @param {string} label - The label for logging.
+ */
 function showBloodBar(selectedBar, label) {
     if (script.GorillaBloodBar) {
         script.GorillaBloodBar.enabled = false;
@@ -17,7 +21,12 @@ function showBloodBar(selectedBar, label) {
     }
 }
 
-// Add event listeners to Pinch Buttons
+/**
+ * Sets up a PinchButton to show a blood bar when pressed.
+ * @param {Component.ScriptComponent} pinchButtonComponent - The PinchButton's ScriptComponent.
+ * @param {string} label - The label for logging.
+ * @param {Component.ScreenImage} bloodBar - The blood bar to show.
+ */
 function setupPinchButton(pinchButtonComponent, label, bloodBar) {
     if (!pinchButtonComponent) {
         print(label + " PinchButton is missing!");
@@ -34,6 +43,6 @@ function setupPinchButton(pinchButtonComponent, label, bloodBar) {
     });
 }
 
-// Setup both buttons
+// Set up both buttons
 setupPinchButton(script.GorillaPinchButton, "Gorilla", script.GorillaBloodBar);
 setupPinchButton(script.HundredMenPinchButton, "100 Men", script.HundredMenBloodBar);
