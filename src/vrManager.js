@@ -18,3 +18,34 @@ class VRManager {
     }
 }
 exports.VRManager = VRManager;
+
+// Minimal type declarations for Lens Studio
+declare var script: any;
+declare namespace Component {
+    interface ScreenImage {
+        getComponent(name: string): any;
+    }
+}
+
+// @input Component.ScreenImage GorillaButton
+// @input Component.ScreenImage HundredMenButton
+
+function addButtonListener(button, label) {
+    if (!button) {
+        print(label + " button is missing!");
+        return;
+    }
+    var touchComponent = button.getComponent("Component.TouchComponent");
+    if (!touchComponent) {
+        print("TouchComponent missing for " + label);
+        return;
+    }
+    touchComponent.onTouchStart.add(function () {
+        print(label + " button pressed");
+        // TODO: Add your custom logic here, e.g.:
+        // global.behaviorSystem.sendCustomTrigger(label + "ButtonPressed");
+    });
+}
+
+addButtonListener(script.GorillaButton, "Gorilla");
+addButtonListener(script.HundredMenButton, "100 Men");

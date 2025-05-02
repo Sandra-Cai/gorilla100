@@ -1,5 +1,8 @@
-export function print(msg: string) {
-  // Lens Studio print/log function
-  // Replace with global print or logger as needed
-  global.print(msg);
-}
+export function log(msg: string) {
+    // Use Lens Studio's print if available, otherwise fallback to console.log
+    if (typeof (globalThis as any).print === "function") {
+      (globalThis as any).print(msg);
+    } else {
+      console.log(msg);
+    }
+  }

@@ -1,10 +1,12 @@
+import { log } from './utils';
+
 export class MultiplayerManager {
   private isConnected: boolean = false;
 
   connect() {
     // Initialize Snap's multiplayer API (RTN or similar)
     // This is a placeholder; actual API calls depend on Snap's SDK
-    print('Connecting to multiplayer server...');
+    log('Connecting to multiplayer server...');
     this.isConnected = true;
     // Listen for player updates, etc.
   }

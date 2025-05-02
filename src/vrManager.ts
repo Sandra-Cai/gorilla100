@@ -1,4 +1,5 @@
 import { MultiplayerManager } from './multiplayer';
+import { log } from './utils';
 
 export class VRManager {
   private multiplayer: MultiplayerManager;
@@ -9,7 +10,7 @@ export class VRManager {
 
   init() {
     // Set up VR/AR scene, objects, and event listeners
-    print('Initializing VR scene...');
+    log('Initializing VR scene...');
     this.multiplayer.onPlayerStateReceived(this.updateOtherPlayer);
   }
 
