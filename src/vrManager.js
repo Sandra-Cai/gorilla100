@@ -1,51 +1,39 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.VRManager = void 0;
-class VRManager {
-    constructor(multiplayer) {
-        this.multiplayer = multiplayer;
-    }
-    init() {
-        // Set up VR/AR scene, objects, and event listeners
-        print('Initializing VR scene...');
-        this.multiplayer.onPlayerStateReceived(this.updateOtherPlayer);
-    }
-    updateOtherPlayer(state) {
-        // Update the scene with other player's state
-    }
-    updateMyState(state) {
-        this.multiplayer.sendPlayerState(state);
-    }
-}
-exports.VRManager = VRManager;
+// @input Component.ScriptComponent GorillaPinchButton
+// @input Component.ScriptComponent HundredMenPinchButton
+// @input Component.ScreenImage GorillaBloodBar
+// @input Component.ScreenImage HundredMenBloodBar
 
-// Minimal type declarations for Lens Studio
-declare var script: any;
-declare namespace Component {
-    interface ScreenImage {
-        getComponent(name: string): any;
+// Helper to show the correct blood bar
+function showBloodBar(selectedBar, label) {
+    if (script.GorillaBloodBar) {
+        script.GorillaBloodBar.enabled = false;
+    }
+    if (script.HundredMenBloodBar) {
+        script.HundredMenBloodBar.enabled = false;
+    }
+    if (selectedBar) {
+        selectedBar.enabled = true;
+        print(label + " blood bar shown");
     }
 }
 
-// @input Component.ScreenImage GorillaButton
-// @input Component.ScreenImage HundredMenButton
-
-function addButtonListener(button, label) {
-    if (!button) {
-        print(label + " button is missing!");
+// Add event listeners to Pinch Buttons
+function setupPinchButton(pinchButtonComponent, label, bloodBar) {
+    if (!pinchButtonComponent) {
+        print(label + " PinchButton is missing!");
         return;
     }
-    var touchComponent = button.getComponent("Component.TouchComponent");
-    if (!touchComponent) {
-        print("TouchComponent missing for " + label);
+    var pinchButton = pinchButtonComponent.api.pinchButton;
+    if (!pinchButton) {
+        print(label + " PinchButton API is missing!");
         return;
     }
-    touchComponent.onTouchStart.add(function () {
+    pinchButton.onButtonPinched.add(function() {
         print(label + " button pressed");
-        // TODO: Add your custom logic here, e.g.:
-        // global.behaviorSystem.sendCustomTrigger(label + "ButtonPressed");
+        showBloodBar(bloodBar, label);
     });
 }
 
-addButtonListener(script.GorillaButton, "Gorilla");
-addButtonListener(script.HundredMenButton, "100 Men");
+// Setup both buttons
+setupPinchButton(script.GorillaPinchButton, "Gorilla", script.GorillaBloodBar);
+setupPinchButton(script.HundredMenPinchButton, "100 Men", script.HundredMenBloodBar);
